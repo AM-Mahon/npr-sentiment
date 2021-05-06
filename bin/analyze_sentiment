@@ -1,0 +1,32 @@
+#! /app/.heroku/node/bin/node
+
+const run_analysis = require('./analyze_sentiment_functions')
+const { Client } = require('pg');
+require('dotenv').config(); // import env vars
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {rejectUnauthorized: false}
+});
+client.connect()
+
+const analyticsClient = new TextAnalyticsClient(process.env.SENTIMENT_ENDPOINT,  new AzureKeyCredential(process.env.SENTIMENT_KEY)); 
+
+client.query("SELECT link, summary FROM articles WHERE sentiment IS NULL")
+.then(res => {
+    for(let row of res.rows){
+        run_analysis(row.summary, analyticsClient)
+        .then(sent => {
+            client.query("UPDATE articles SET sentiment = $1 WHERE link=$2;", [sent, row.link]);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+})
+.finally(() => {
+    setTimeout(() => {
+        process.exit();
+    }, 30000)
+})

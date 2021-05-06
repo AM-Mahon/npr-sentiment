@@ -1,0 +1,30 @@
+#! /app/.heroku/node/bin/node
+// https://feeds.npr.org/1001/rss.xml
+
+const func = require('./parse_rss_functions');
+const rss_parser = require('rss-parser');
+const { Client } = require('pg');
+require('dotenv').config(); // import env vars
+const parser = new rss_parser();
+
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {rejectUnauthorized: false}
+});
+client.connect()
+
+func.readFeed('https://feeds.npr.org/1001/rss.xml', parser)
+.then(feed => {
+    for(let item of feed){
+        func.saveItem(item, client);
+    }
+})
+.catch(err => {
+    console.log("Error occurred parsing feed")
+    console.log(err);
+})
+.finally(() => {
+    setTimeout(() => {
+        process.exit();
+    }, 15000)
+})
