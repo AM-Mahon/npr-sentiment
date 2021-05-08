@@ -27,6 +27,7 @@ client.query("SELECT link, summary FROM articles WHERE sentiment IS NULL")
 })
 .finally(() => {
     setTimeout(() => {
+        client.end();
         process.exit();
     }, 30000)
 })

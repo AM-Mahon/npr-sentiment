@@ -25,6 +25,7 @@ func.readFeed('https://feeds.npr.org/1001/rss.xml', parser)
 })
 .finally(() => {
     setTimeout(() => {
+        client.end();
         process.exit();
     }, 15000)
 })
