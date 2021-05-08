@@ -1,5 +1,6 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# .env file step from: https://stackoverflow.com/questions/61117865/how-to-set-environment-variable-in-node-js-process-when-deploying-with-github-ac
 
 name: Run tests
 
@@ -9,19 +10,7 @@ on:
   pull_request:
     branches: [ main ]
 
-jobs:
-  create-envfile:
-  
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Make envfile
-# from: https://stackoverflow.com/questions/61117865/how-to-set-environment-variable-in-node-js-process-when-deploying-with-github-ac
-      run: |
-        touch .env
-        echo DATABASE_URL = ${{ secrets.DATABASE_URL }} >> .env
-        echo SENTIMENT_ENDPOINT = ${{ secrets.SENTIMENT_ENDPOINT }} >> .env
-        echo SENTIMENT_KEY = ${{ secrets.SENTIMENT_KEY }} >> .env
+jobs:    
 
   build:
 
@@ -39,4 +28,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
+    - name: Make envfile
+      run: |
+        touch .env
+        echo DATABASE_URL = ${{ secrets.DATABASE_URL }} >> .env
+        echo SENTIMENT_ENDPOINT = ${{ secrets.SENTIMENT_ENDPOINT }} >> .env
+        echo SENTIMENT_KEY = ${{ secrets.SENTIMENT_KEY }} >> .env
     - run: npm run test
+    
