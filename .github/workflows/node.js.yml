@@ -19,9 +19,9 @@ jobs:
 # from: https://stackoverflow.com/questions/61117865/how-to-set-environment-variable-in-node-js-process-when-deploying-with-github-ac
       run: |
         touch .env
-        echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
-        echo SENTIMENT_ENDPOINT=${{ secrets.SENTIMENT_ENDPOINT }} >> .env
-        echo SENTIMENT_KEY=${{ secrets.SENTIMENT_KEY }} >> .env
+        echo DATABASE_URL = ${{ secrets.DATABASE_URL }} >> .env
+        echo SENTIMENT_ENDPOINT = ${{ secrets.SENTIMENT_ENDPOINT }} >> .env
+        echo SENTIMENT_KEY = ${{ secrets.SENTIMENT_KEY }} >> .env
 
   build:
 
