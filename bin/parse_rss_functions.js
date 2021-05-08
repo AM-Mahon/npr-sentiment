@@ -26,7 +26,7 @@ module.exports = {
     },
     
     saveItem: async function(item, client){
-        client.query("INSERT INTO articles(title, link, summary, publish)\
+        await client.query("INSERT INTO articles(title, link, summary, publish)\
         VALUES($1,$2,$3,$4)\
         ON CONFLICT (link) DO NOTHING;", 
         [item.title, item.link, item.summary, new Date(item.published)])
@@ -36,6 +36,7 @@ module.exports = {
         })
         .catch(err =>{
             console.log(`Error when inserting article:\n${err}`);
+            throw 'error';
         })
     }
 }
