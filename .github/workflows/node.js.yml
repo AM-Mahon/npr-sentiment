@@ -16,11 +16,11 @@ jobs:
     
     steps:
     - name: Make envfile
-      uses: SpicyPizza/create-envfile@v1
-      with:
-        envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        envkey_SENTIMENT_ENDPOINT: ${{ secrets.SENTIMENT_ENDPOINT }}
-        envkey_SENTIMENT_KEY: ${{ secrets.SENTIMENT_KEY }}
+      run:
+        touch .env
+        echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+        echo SENTIMENT_ENDPOINT=${{ secrets.SENTIMENT_ENDPOINT }} >> .env
+        echo SENTIMENT_KEY=${{ secrets.SENTIMENT_KEY }} >> .env
 
   build:
 
