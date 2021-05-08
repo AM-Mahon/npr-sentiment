@@ -39,3 +39,8 @@ test('saveItem fails on improperly formatted input', () => {
         expect(err).toMatch('error');
     })
 })
+
+afterAll(done => {
+    client.end();
+    done()
+})
