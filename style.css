@@ -1,0 +1,31 @@
+.card {
+    width: 75%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border: 2px solid black;
+    border-radius: 25px;
+    
+}
+
+body {
+    font-family: Arial;
+    padding: 20px;
+    background: #a3b5f3;
+    text-align: center;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+
+tr {
+    border-bottom: 1px solid;
+}
+
+a {
+    text-decoration: none;
+}
