@@ -28,7 +28,7 @@ const retrieveArticles = async function(){
     return articles;
 }
 
-var server = app.listen(process.env.port || 8080, function() {
+var server = app.listen(process.env.PORT || 8080, function() {
     console.log(`App now running on port ${server.address().port}`)
     
     app.get("/", function(req, res, next){
